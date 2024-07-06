@@ -1,56 +1,44 @@
-#include <wiringPi.h>
-#include <signal.h>
+from gpiozero import LED
+from signal import pause
+from time import sleep
 
-#define AMBER 13
-#define GREEN 19
-#define RED 26
+led1 = LED(13)
+led2 = LED(19)
+led3 = LED(26)
 
-int blink = 1;
-
-void cleanup(int signo) {
-    blink = 0;
-}
-int main(void) {
-    signal(SIGINT, cleanup);
-    signal(SIGTERM, cleanup);
-    signal(SIGHUP, cleanup);
-
-    wiringPiSetupGpio();
-    pinMode(AMBER, OUTPUT);
-    pinMode(GREEN, OUTPUT);
-    pinMode(RED, OUTPUT);
-
-    while (blink) {
-        // Forward sequence
-        digitalWrite(AMBER, HIGH);
-        delay(500);
-        digitalWrite(AMBER, LOW);
-
-        digitalWrite(GREEN, HIGH);
-        delay(500);
-        digitalWrite(GREEN, LOW);
-
-        digitalWrite(RED, HIGH);
-        delay(500);
-        digitalWrite(RED, LOW);
-
-        // Reverse sequence
-        digitalWrite(GREEN, HIGH);
-        delay(500);
-        digitalWrite(GREEN, LOW);
-
-        digitalWrite(AMBER, HIGH);
-        delay(500);
-        digitalWrite(AMBER, LOW);
-    }
-
-    digitalWrite(AMBER, LOW);
-    digitalWrite(GREEN, LOW);
-    digitalWrite(RED, LOW);
-    pinMode(AMBER, INPUT);
-    pinMode(GREEN, INPUT);
-    pinMode(RED, INPUT);
-
-    return 0;
-}
-
+try:
+    while True:
+        # Forward sequence
+        led1.on()
+        sleep(0.5)
+        led1.off()
+        
+        sleep(0.5)
+        
+        led2.on()
+        sleep(0.5)
+        led2.off()
+        
+        sleep(0.5)
+        
+        led3.on()
+        sleep(0.5)
+        led3.off()
+        
+        sleep(0.5)
+        
+        # Reverse sequence
+        led2.on()
+        sleep(0.5)
+        led2.off()
+        
+        sleep(0.5)
+        
+        led1.on()
+        sleep(0.5)
+        led1.off()
+        
+        sleep(0.5)
+        
+except KeyboardInterrupt:
+    pass
